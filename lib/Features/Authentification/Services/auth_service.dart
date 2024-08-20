@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,9 +53,12 @@ class AuthService {
   }
 
   // Logout method
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
+
+    // Navigate to the login page
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 
   // Check if user is logged in

@@ -1,7 +1,10 @@
+import 'package:doctor_app/Features/Authentification/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
+
   const CustomDrawer({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +57,18 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            onTap: () {
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () async {
               // Handle logout
-              Navigator.pop(context);
+              AuthService authService = AuthService();
+              await authService.logout(context); // Ensure logout is awaited
+              print("Logged out");
+
+              // Redirect to login page after successful logout
+              Navigator.of(context).pushReplacementNamed('/login');
             },
+
           ),
         ],
       ),

@@ -46,16 +46,16 @@ class TimePeriod {
     return {
       'start': start.toIso8601String(),
       'end': end.toIso8601String(),
-      'isTaken': isTaken,
+      'taken': isTaken,
     };
   }
 
   // Factory constructor to create a TimePeriod from JSON
   factory TimePeriod.fromJson(Map<String, dynamic> json) {
     return TimePeriod(
-      start: DateTime.parse(json['start']),
-      end: DateTime.parse(json['end']),
-      isTaken: json['isTaken'],
+      start: DateTime.parse(json['startTime']),
+      end: DateTime.parse(json['endTime']),
+      isTaken: json['taken'],
     );
   }
 }
@@ -83,7 +83,7 @@ class TimeSlot {
   factory TimeSlot.fromJson(Map<String, dynamic> json) {
     return TimeSlot(
       date: DateTime.parse(json['date']),
-      isFree: json['isFree'],
+      isFree: json['free'],
       timePeriods: (json['timePeriods'] as List)
           .map((item) => TimePeriod.fromJson(item))
           .toList(),

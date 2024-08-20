@@ -205,7 +205,7 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
         foregroundColor: Colors.white,
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
         child: CircularProgressIndicator(), // Loader displayed while loading
       )
           : Form(

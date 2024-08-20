@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:doctor_app/Features/Patient/drawer_menu.dart';
 import 'package:doctor_app/Features/Patient/search.dart';
-
 import '../Doctor/Model/DoctorResponse.dart';
 import '../Doctor/Screens/Doctor_info.dart';
 import '../Doctor/Services/doctor_service.dart';
-import '../UserManagment/Model/Models.dart';
-
 
 class HomePage extends StatefulWidget {
 
-
   const HomePage({super.key});
-
   @override
   _HomePageState createState() => _HomePageState();
 }

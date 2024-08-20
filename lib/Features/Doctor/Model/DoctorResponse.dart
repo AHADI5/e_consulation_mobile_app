@@ -23,9 +23,9 @@ class Doctor {
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
       doctorId: json['doctorId'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      phoneNumber: json['phoneNumber'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      phoneNumber: json['phone_number'],
       specialty: json['specialty'],
 
       schedules: (json['schedules'] as List)

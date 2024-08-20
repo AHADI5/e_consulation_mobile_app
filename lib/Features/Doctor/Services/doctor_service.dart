@@ -27,6 +27,7 @@ class DoctorService {
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
       List<Doctor> doctors = body.map((dynamic item) => Doctor.fromJson(item)).toList();
+      print(doctors);
       return doctors;
     } else {
       throw Exception('Failed to load doctors');
