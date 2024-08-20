@@ -21,6 +21,9 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _quarterController = TextEditingController();
+  final _avenueController = TextEditingController();
+  final _houseNumberController = TextEditingController();
 
   final AuthService _patientService = AuthService(); // Replace with your API endpoint
 
@@ -78,6 +81,29 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
         ),
         isActive: _currentStep >= 1,
       ),
+      Step(
+        title: const Text('Address Information'),
+        content: Column(
+          children: [
+            _buildTextField(
+              controller: _quarterController,
+              labelText: 'Quarter',
+            ),
+            const SizedBox(height: 20),
+            _buildTextField(
+              controller: _avenueController,
+              labelText: 'Avenue',
+            ),
+            const SizedBox(height: 20),
+            _buildTextField(
+              controller: _houseNumberController,
+              labelText: 'House Number',
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        isActive: _currentStep >= 2,
+      ),
     ];
   }
 
@@ -128,10 +154,18 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
           password: _passwordController.text,
         );
 
+        // Create Address
+        Address address = Address(
+          quarter: _quarterController.text,
+          avenue: _avenueController.text,
+          houseNumber: int.parse(_houseNumberController.text),
+        );
+
         // Create NewPatientRequest
         NewPatientRequest request = NewPatientRequest(
           patientDto: patientDto,
           newAccount: newAccount,
+          address: address,
         );
 
         // Handle form submission using service
@@ -153,7 +187,6 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
       }
     }
   }
-
 
   void _cancel() {
     if (_currentStep > 0) {
@@ -216,6 +249,9 @@ class _PatientRegistrationFormState extends State<PatientRegistrationForm> {
     _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _quarterController.dispose();
+    _avenueController.dispose();
+    _houseNumberController.dispose();
     super.dispose();
   }
 }

@@ -1,12 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:doctor_app/Features/Authentification/Services/auth_service.dart';
-import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
+// Models for request data (replace with actual imports)
 import '../Model/Models.dart';
-
-// Assuming your models are imported correctly
-// import 'models.dart'; // Ensure your models are in the same directory or adjust the path accordingly
 
 class DoctorRegistrationForm extends StatefulWidget {
   @override
@@ -23,7 +19,10 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
   final _specialtyController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final AuthService _doctorService = AuthService() ;
+  final _quarterController = TextEditingController();
+  final _avenueController = TextEditingController();
+  final _houseNumberController = TextEditingController();
+  final AuthService _doctorService = AuthService();
 
   final Map<String, List<TimeOfDay>> _schedule = {
     'Monday': [],
@@ -85,6 +84,29 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
         isActive: _currentStep >= 1,
       ),
       Step(
+        title: const Text('Address Information'),
+        content: Column(
+          children: [
+            _buildTextField(
+              controller: _quarterController,
+              labelText: 'Quarter',
+            ),
+            const SizedBox(height: 20),
+            _buildTextField(
+              controller: _avenueController,
+              labelText: 'Avenue',
+            ),
+            const SizedBox(height: 20),
+            _buildTextField(
+              controller: _houseNumberController,
+              labelText: 'House Number',
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+        isActive: _currentStep >= 2,
+      ),
+      Step(
         title: const Text('Account Information'),
         content: Column(
           children: [
@@ -101,7 +123,7 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
             ),
           ],
         ),
-        isActive: _currentStep >= 2,
+        isActive: _currentStep >= 3,
       ),
       Step(
         title: const Text('Schedule Setup'),
@@ -155,7 +177,7 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
             );
           }).toList(),
         ),
-        isActive: _currentStep >= 3,
+        isActive: _currentStep >= 4,
       ),
     ];
   }
@@ -196,6 +218,13 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
           specialty: _specialtyController.text,
         );
 
+        // Create Address
+        Address address = Address(
+          quarter: _quarterController.text,
+          avenue: _avenueController.text,
+          houseNumber: int.parse(_houseNumberController.text),
+        );
+
         // Create NewAccount
         NewAccount newAccount = NewAccount(
           email: _emailController.text,
@@ -224,6 +253,7 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
         // Create DoctorRegistrationRequest
         DoctorRegistrationRequest request = DoctorRegistrationRequest(
           doctorDto: doctorDto,
+          address: address,
           scheduleList: schedules,
           newAccount: newAccount,
         );
@@ -278,34 +308,21 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
                   onPressed: details.onStepContinue,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white,
                   ),
-                  child: const Text('Continue'),
+                  child: Text(_currentStep == _getSteps().length - 1 ? 'Submit' : 'Next'),
                 ),
-                if (_currentStep > 0)
-                  OutlinedButton(
-                    onPressed: details.onStepCancel,
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Colors.blueAccent),
-                    ),
-                    child: const Text('Back', style: TextStyle(color: Colors.blueAccent)),
+                ElevatedButton(
+                  onPressed: details.onStepCancel,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
                   ),
+                  child: const Text('Back'),
+                ),
               ],
             );
           },
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _phoneController.dispose();
-    _specialtyController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

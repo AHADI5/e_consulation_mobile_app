@@ -2,13 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:doctor_app/Features/Patient/drawer_menu.dart';
 import 'package:doctor_app/Features/Patient/search.dart';
 
-
+import '../Doctor/Model/DoctorResponse.dart';
 import '../Doctor/Screens/Doctor_info.dart';
+import '../Doctor/Services/doctor_service.dart';
 import '../UserManagment/Model/Models.dart';
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+
+
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late DoctorService _doctorService;
+  late Future<List<Doctor>> _doctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _doctorService = DoctorService();
+    _doctors = _doctorService.fetchDoctors();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,52 +46,43 @@ class HomePage extends StatelessWidget {
         ],
       ),
       drawer: const CustomDrawer(),
-      body: ListView(
-        children: [
-          _buildDoctorTile(
-            context,
-            'Dr. John Doe',
-            'Cardiologue',
-            'assets/doctor.webp',
-            4.8, // Star rating
-            45, // Number of reviews
-          ),
-          _buildDoctorTile(
-            context,
-            'Dr. Jane Smith',
-            'Dermatologue',
-            'assets/doctor.webp',
-            4.5, // Star rating
-            30, // Number of reviews
-          ),
-          // Add more doctors here
-        ],
+      body: FutureBuilder<List<Doctor>>(
+        future: _doctors,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No doctors found.'));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return _buildDoctorTile(context, snapshot.data![index]);
+              },
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget _buildDoctorTile(
-      BuildContext context,
-      String name,
-      String specialty,
-      String profilePic,
-      double rating, // Star rating
-      int reviews, // Number of reviews
-      ) {
+  Widget _buildDoctorTile(BuildContext context, Doctor doctor) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Column(
         children: [
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: AssetImage(profilePic),
+              backgroundImage: const AssetImage('assets/doctor.webp'), // Use default image
               radius: 30,
             ),
-            title: Text(name),
+            title: Text('${doctor.firstName} ${doctor.lastName}'),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(specialty),
+                Text(doctor.specialty),
                 const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +90,7 @@ class HomePage extends StatelessWidget {
                     Row(
                       children: List.generate(5, (index) {
                         return Icon(
-                          index < rating ? Icons.star : Icons.star_border,
+                          index < 4.5 ? Icons.star : Icons.star_border, // Default rating
                           color: Colors.yellow,
                           size: 16,
                         );
@@ -90,13 +99,13 @@ class HomePage extends StatelessWidget {
                     const SizedBox(width: 4),
                     const Text("|"),
                     const SizedBox(width: 4),
-                    Text('$reviews avis'),
+                    const Text('30 avis'), // Default number of reviews
                   ],
                 ),
               ],
             ),
             trailing: IconButton(
-              icon: Icon(Icons.favorite_border),
+              icon: const Icon(Icons.favorite_border),
               onPressed: () {
                 // Handle adding to favorites
               },
@@ -107,43 +116,15 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DoctorInfoPage(
-                    doctorName: name,
-                    specialty: specialty,
-                    profilePic: profilePic,
+                    doctorName: '${doctor.firstName} ${doctor.lastName}',
+                    specialty: doctor.specialty,
+               // Default image
                     address: '123 Rue de la Santé, Paris',
-                    reviews: rating,
+                    reviews: 4.5, // Default rating
                     experience: 15, // Example data, can be dynamic
                     consultations: 500, // Example data, can be dynamic
                     isFavorite: true, // Example data, can be dynamic
-                    schedule: [
-                      Schedule(
-                        timeSlots: [
-                          TimeSlot(
-                            date: DateTime.now(),
-                            isFree: true,
-                            timePeriods: [
-                              TimePeriod(
-                                start: DateTime.now().add(Duration(hours: 1)),
-                                end: DateTime.now().add(Duration(hours: 2)),
-                                isTaken: true,
-                              ),
-                              TimePeriod(
-                                start: DateTime.now().add(Duration(hours: 2)),
-                                end: DateTime.now().add(Duration(hours: 3)),
-                                isTaken: false,
-                              ),
-                              TimePeriod(
-                                start: DateTime.now().add(Duration(hours: 3)),
-                                end: DateTime.now().add(Duration(hours: 4)),
-                                isTaken: false,
-                              ),
-                            ],
-                          ),
-                          // Add more TimeSlot entries here
-                        ],
-                      ),
-                      // Add more Schedule entries here if needed
-                    ],
+                    schedule: doctor.schedules,
                   ),
                 ),
               );

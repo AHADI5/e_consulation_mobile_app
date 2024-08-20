@@ -1,11 +1,8 @@
+import 'package:doctor_app/Features/Doctor/Screens/consulttions.dart';
+import 'package:doctor_app/Features/Doctor/Screens/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
-import '../Patient/favoris_page.dart';
-import '../Patient/home.dart';
 import '../Patient/profile.dart';
-import '../Patient/rendez_vous.dart';
 
 class PatientMainScreen extends StatefulWidget {
   const PatientMainScreen({super.key, required String email});
@@ -18,9 +15,8 @@ class _PatientMainScreenState extends State<PatientMainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-     HomePage(),
-    const RendezVousPage(),
-    const FavorisPage(),
+     DoctorHomePage(),
+     DoctorConsultationsPage(),
     const ProfilePage(),
   ];
 
@@ -42,13 +38,8 @@ class _PatientMainScreenState extends State<PatientMainScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Rendez-vous',
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoris',
+            icon: Icon(Icons.file_copy),
+            label: 'consultations',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

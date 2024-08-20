@@ -1,9 +1,6 @@
 import 'package:doctor_app/Features/MainUI/PatientMainScreen.dart';
 import 'package:flutter/material.dart';
-
-
-
-import '../../Patient/home.dart';
+import '../../Doctor/Screens/home.dart';
 import '../../UserManagment/Screens/doctor_registration.dart';
 import '../../UserManagment/Screens/patient_registration.dart';
 import '../Model/user.dart';
@@ -51,12 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         } else if (role == 'DOCTOR') {
-          /**Navigator.pushReplacement(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => DoctorHomePage(email: email),
+              builder: (context) => DoctorHomePage(),
             ),
-          );**/
+          );
         } else {
           throw Exception('Unknown role: $role');
         }

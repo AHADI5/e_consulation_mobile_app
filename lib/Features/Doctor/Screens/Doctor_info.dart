@@ -5,7 +5,6 @@ import '../../UserManagment/Model/Models.dart';
 class DoctorInfoPage extends StatelessWidget {
   final String doctorName;
   final String specialty;
-  final String profilePic;
   final String address;
   final double reviews;
   final int experience; // Years of experience
@@ -17,7 +16,6 @@ class DoctorInfoPage extends StatelessWidget {
     super.key,
     required this.doctorName,
     required this.specialty,
-    required this.profilePic,
     required this.address,
     required this.reviews,
     required this.experience,
@@ -53,7 +51,7 @@ class DoctorInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircleAvatar(
-          backgroundImage: AssetImage(profilePic),
+          backgroundImage: AssetImage(""),
           radius: 40,
         ),
         const SizedBox(width: 16),

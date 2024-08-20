@@ -22,11 +22,11 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Text(
-              'AHADI GASORE',
+              'PILLAR MULENDA',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            const Text('patient.email@example.com'),
+            const Text('pillarmulenda@gmail.com'),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
