@@ -19,7 +19,7 @@ class MedicalApp extends StatelessWidget {
       title: 'Medical App',
 
        debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/login': (context) =>  LoginScreen(),
 

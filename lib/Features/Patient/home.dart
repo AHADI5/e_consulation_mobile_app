@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                     experience: 15, // Example data, can be dynamic
                     consultations: 500, // Example data, can be dynamic
                     isFavorite: true, // Example data, can be dynamic
-                    schedule: doctor.schedules,
+                    schedule: doctor.schedules, email: doctor.email,
                   ),
                 ),
               );

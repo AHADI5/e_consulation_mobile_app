@@ -6,10 +6,11 @@ class Doctor {
   final String lastName;
   final String phoneNumber;
   final String specialty;
-  //final ProfilePic profilePic;
+  final String email ;
   final List<Schedule> schedules;
 
-  Doctor({
+  Doctor( {
+    required this.email,
     required this.doctorId,
     required this.firstName,
     required this.lastName,
@@ -27,6 +28,7 @@ class Doctor {
       lastName: json['last_name'],
       phoneNumber: json['phone_number'],
       specialty: json['specialty'],
+      email:  json['email'],
 
       schedules: (json['schedules'] as List)
           .map((schedule) => Schedule.fromJson(schedule))

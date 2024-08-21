@@ -241,7 +241,7 @@ class _DoctorRegistrationFormState extends State<DoctorRegistrationForm> {
                 return TimePeriod(
                   start: DateTime(2024, 1, 1, time.hour, time.minute),
                   end: DateTime(2024, 1, 1, time.hour + 1, time.minute), // Adjust end time as needed
-                  isTaken: false,
+                  isTaken: false
                 );
               }).toList(),
             ),

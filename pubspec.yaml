@@ -39,6 +39,8 @@ dependencies:
   http: ^1.2.2
   dart_jsonwebtoken: ^2.14.0
   jwt_decoder: ^2.0.1
+  flutter_spinkit: ^5.2.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

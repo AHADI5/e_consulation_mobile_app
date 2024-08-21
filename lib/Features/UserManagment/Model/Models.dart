@@ -32,11 +32,13 @@ class DoctorDto {
 }
 
 class TimePeriod {
+  final int? id ;
   DateTime start;
   DateTime end;
   bool isTaken;
 
   TimePeriod({
+     this.id,
     required this.start,
     required this.end,
     required this.isTaken,
@@ -44,6 +46,7 @@ class TimePeriod {
 
   Map<String, dynamic> toJson() {
     return {
+      'id' : id ,
       'start': start.toIso8601String(),
       'end': end.toIso8601String(),
       'taken': isTaken,
@@ -55,7 +58,7 @@ class TimePeriod {
     return TimePeriod(
       start: DateTime.parse(json['startTime']),
       end: DateTime.parse(json['endTime']),
-      isTaken: json['taken'],
+      isTaken: json['taken'], id: json['id'],
     );
   }
 }
